@@ -57,7 +57,37 @@ function selReverseSecond(array, length) {
     return result;
 }
 
-console.log(selReverseFirst([1,2,3,4,5,6], 2))
+selReverseFirst([1,2,3,4,5,6], 2)
 //=> [2,1, 4,3, 6,5]
-console.log(selReverseSecond([2,4,6,8,10,12,14,16], 3))
+selReverseSecond([2,4,6,8,10,12,14,16], 3)
 //=> [6,4,2, 12,10,8, 16,14]
+
+// Complete the method so that it formats the words into a single comma separated value. The last word should be separated by the word 'and' instead of a comma. The method takes in an array of strings and returns a single formatted string.
+//
+// Note:
+// Empty string values should be ignored.
+// Empty arrays or null/nil/None values being passed into the method should result in an empty string being returned.
+// Example: (Input --> output)
+//
+// ['ninja', 'samurai', 'ronin'] --> "ninja, samurai and ronin"
+// ['ninja', '', 'ronin'] --> "ninja and ronin"
+// [] --> ""
+
+function formatWords(words) {
+    const tmpArr = words?.filter(Boolean)
+
+    return !tmpArr?.length ? (
+        ""
+    ) : tmpArr.length === 1 ? (
+        tmpArr[0]
+    ) : (
+        `${tmpArr.slice(0, -1).join(', ')} and ${tmpArr.at(-1)}`
+    )
+}
+
+formatWords(['', '', '', 'four']);
+// 'four'
+formatWords(['one', 'two', 'three', 'four']);
+// 'one, two, three and four'
+formatWords([""]);
+// ''
