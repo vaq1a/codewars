@@ -91,3 +91,31 @@ formatWords(['one', 'two', 'three', 'four']);
 // 'one, two, three and four'
 formatWords([""]);
 // ''
+
+// For a given string s find the character c (or C) with longest consecutive repetition and return:
+//
+// [c, l]
+// where l (or L) is the length of the repetition. If there are two or more characters with the same l return the first in order of appearance.
+//
+// For empty string return:
+//
+// ["", 0]
+// In JavaScript: If you use Array.sort in your solution, you might experience issues with the random tests as Array.sort is not stable in the Node.js version used by CodeWars. This is not a kata issue.
+
+// when we take into account the whole line
+function longestRepetition(s) {
+    if (!s?.length) {
+        return ["",0]
+    }
+
+    const { resultElem, lengthElemInString } = [...new Set(s.split(''))].map((elem) => ({
+        resultElem: elem,
+        lengthElemInString: s.match(new RegExp(`${elem}`, 'gi')).length
+    })).sort((a, b) => b.lengthElemInString - a.lengthElemInString)[0]
+
+    return [resultElem, lengthElemInString]
+}
+
+longestRepetition("aaaabb");      // ["a",4]
+longestRepetition("bbbaaabaaaa");      // ["a",7]
+longestRepetition("abbbbb");      // ["b",5] )
