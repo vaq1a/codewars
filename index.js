@@ -166,3 +166,27 @@ narcissistic(153); // true
 narcissistic(122); // false
 narcissistic(1652); // false
 narcissisticSecondVariant(1652); // false
+
+
+// Write simple .camelCase method (camel_case function in PHP, CamelCase in C# or camelCase in Java) for strings. All words must have their first letter capitalized without spaces.
+
+// For instance:
+// "hello case".camelCase() => HelloCase
+// "camel case word".camelCase() => CamelCaseWord
+
+String.prototype.camelCase = function(){
+    if (!this.length) {
+        return ""
+    }
+
+    return [...this].join('').split(' ').map((elem) => elem[0].toUpperCase() + elem.slice(1)).join('')
+}
+
+String.prototype.regexCamelCase = function () {
+    return this.trim().replace(/(?:^|\s+)(\w)/g, (_, c) => c.toUpperCase())
+}
+
+"camel case word".camelCase(); // CamelCaseWord
+"".camelCase(); // ""
+"camel case word".regexCamelCase(); // CamelCaseWord
+"".regexCamelCase(); // ""
