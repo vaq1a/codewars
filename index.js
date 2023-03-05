@@ -85,11 +85,11 @@ function formatWords(words) {
     )
 }
 
-formatWords(['', '', '', 'four']);
+formatWords(['', '', '', 'four'])
 // 'four'
-formatWords(['one', 'two', 'three', 'four']);
+formatWords(['one', 'two', 'three', 'four'])
 // 'one, two, three and four'
-formatWords([""]);
+formatWords([""])
 // ''
 
 // For a given string s find the character c (or C) with longest consecutive repetition and return:
@@ -116,9 +116,9 @@ function longestRepetition(s) {
     return [resultElem, lengthElemInString]
 }
 
-longestRepetition("aaaabb");      // ["a",4]
-longestRepetition("bbbaaabaaaa");      // ["a",7]
-longestRepetition("abbbbb");      // ["b",5] )
+longestRepetition("aaaabb")  // ["a",4]
+longestRepetition("bbbaaabaaaa")  // ["a",7]
+longestRepetition("abbbbb") // ["b",5] )
 
 // A Narcissistic Number (or Armstrong Number) is a positive number which is the sum of its own digits, each raised to the power of the number of digits in a given base. In this Kata, we will restrict ourselves to decimal (base 10).
 
@@ -161,11 +161,11 @@ function narcissisticSecondVariant(value) {
     }, 0) === value
 }
 
-narcissistic(7); // true
-narcissistic(153); // true
-narcissistic(122); // false
-narcissistic(1652); // false
-narcissisticSecondVariant(1652); // false
+narcissistic(7) // true
+narcissistic(153) // true
+narcissistic(122) // false
+narcissistic(1652) // false
+narcissisticSecondVariant(1652) // false
 
 
 // Write simple .camelCase method (camel_case function in PHP, CamelCase in C# or camelCase in Java) for strings. All words must have their first letter capitalized without spaces.
@@ -174,6 +174,7 @@ narcissisticSecondVariant(1652); // false
 // "hello case".camelCase() => HelloCase
 // "camel case word".camelCase() => CamelCaseWord
 
+// first variant
 String.prototype.camelCase = function(){
     if (!this.length) {
         return ""
@@ -182,11 +183,68 @@ String.prototype.camelCase = function(){
     return [...this].join('').split(' ').map((elem) => elem[0].toUpperCase() + elem.slice(1)).join('')
 }
 
+// second variant
 String.prototype.regexCamelCase = function () {
     return this.trim().replace(/(?:^|\s+)(\w)/g, (_, c) => c.toUpperCase())
 }
 
-"camel case word".camelCase(); // CamelCaseWord
-"".camelCase(); // ""
-"camel case word".regexCamelCase(); // CamelCaseWord
-"".regexCamelCase(); // ""
+"camel case word".camelCase() // CamelCaseWord
+"".camelCase() // ""
+"camel case word".regexCamelCase() // CamelCaseWord
+"".regexCamelCase() // ""
+
+// You are given an array (which will have a length of at least 3, but could be very large) containing integers. The array is either entirely comprised of odd integers or entirely comprised of even integers except for a single integer N. Write a method that takes the array as an argument and returns this "outlier" N.
+
+// Examples
+// [2, 4, 0, 100, 4, 11, 2602, 36]
+// Should return: 11 (the only odd number)
+// [160, 3, 1719, 19, 11, 13, -21]
+// Should return: 160 (the only even number)
+
+// first variant
+function findOutlier(integers) {
+    let even = {}
+    let odd = {}
+
+    integers.forEach((elem) => {
+        if (elem % 2 === 0) {
+            even[elem] = {
+                count: even[elem]?.count ? even[elem].count+=1 : 1,
+            }
+
+            return
+        }
+
+        odd[elem] = {
+            count: odd[elem]?.count ? odd[elem].count+=1 : 1,
+        }
+    })
+
+    const oddObjKeys = Object.keys(odd)
+    const evenObjKeys = Object.keys(even)
+
+    if (oddObjKeys.length === evenObjKeys.length) {
+        return Object.values(odd)[0].count > Object.values(even)[0].count ? +evenObjKeys[0] : +oddObjKeys[0]
+    }
+
+    if (oddObjKeys.length === 1) {
+        return +oddObjKeys[0]
+    }
+
+    return +evenObjKeys[0]
+}
+
+// second variant
+function findOutlierShortVersion(integers) {
+    const even = integers.filter(a => a % 2 === 0)
+    const odd = integers.filter(a => a % 2 !== 0)
+
+    return even.length === 1 ? even[0] : odd[0]
+}
+
+findOutlier([0, 1, 2]) // 1
+findOutlier([1, 2, 3]) // 2
+findOutlier([1, 1, 0, 1, 1]) // 0
+findOutlierShortVersion([0, 0, 3, 0, 0]) // 3
+findOutlierShortVersion([2, 4, 0, 100, 4, 11, 2602, 36]) // 11
+findOutlierShortVersion([160, 3, 1719, 19, 11, 13, -21]) // 160
